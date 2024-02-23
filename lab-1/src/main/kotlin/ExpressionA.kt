@@ -13,13 +13,8 @@ class ExpressionA(
         val result = DoubleArray(vector.size)
 
         for (i in matrix.indices) {
-            val products = DoubleArray(vector.size)
-
-            for (j in vector.indices) {
-                products[j] = vector[j] * matrix[j][i]
-            }
-
-            result[i] = kahanSum(*products)
+            val products = vector.mapIndexed { j, el -> el * matrix[j][i] }
+            result[i] = kahanSum(*products.toDoubleArray())
         }
 
         return result
