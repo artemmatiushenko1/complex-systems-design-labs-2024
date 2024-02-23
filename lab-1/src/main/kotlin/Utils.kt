@@ -1,12 +1,11 @@
 package org.example
 
-import kotlin.random.Random
-
 fun generateVector(size: Int): DoubleArray {
     val result = DoubleArray(size)
 
     for (i in 0 until size) {
-        result[i] = Random.nextDouble()
+//        result[i] = Random.nextDouble()
+        result[i] = 1.0
     }
 
     return result
@@ -34,7 +33,7 @@ fun printVector(vector: DoubleArray) {
     }
 }
 
-fun printMatrix (matrix: Array<DoubleArray>) {
+fun printMatrix(matrix: Array<DoubleArray>) {
     synchronized(IO_LOCK) {
         for (i in matrix.indices) {
             println(matrix[i].joinToString(" "))
@@ -42,3 +41,16 @@ fun printMatrix (matrix: Array<DoubleArray>) {
     }
 }
 
+fun kahanSum(vararg numbers: Double): Double {
+    var sum = 0.0
+    var compensation = 0.0
+
+    for (number in numbers) {
+        val y = number - compensation
+        val tempSum = sum + y
+        compensation = (tempSum - sum) - y
+        sum = tempSum
+    }
+
+    return sum
+}

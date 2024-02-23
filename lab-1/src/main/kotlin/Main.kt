@@ -1,8 +1,8 @@
 package org.example
 
-import kotlinx.serialization.*
-import kotlinx.serialization.json.*
-import kotlin.random.Random
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @Serializable
 data class InputData(
@@ -19,7 +19,7 @@ data class InputData(
 fun main() {
     // ВАРІАНТ 12
 
-    val N = 5
+    val N = 3
 
     // А=В*МС+D*MZ+E*MM;
     // MG=min(D+E)*MM*MT-MZ*ME
@@ -46,5 +46,15 @@ fun main() {
     )
 
     val string = Json.encodeToString(data)
-    println(string)
+
+    val expressionA = ExpressionA(
+        B = B,
+        MC = MC,
+        D = D,
+        MZ = MZ,
+        E = E,
+        MM = MM,
+    )
+
+    printVector(expressionA.calculate())
 }
