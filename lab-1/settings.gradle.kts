@@ -2,4 +2,6 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
 }
 
-include("shared", "variant-1")
+include("shared")
+include("variant-1")
+include("variant-2")
