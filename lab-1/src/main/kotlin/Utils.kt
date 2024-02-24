@@ -96,3 +96,5 @@ fun subtractMatrices(matrixA: Array<DoubleArray>, matrixB: Array<DoubleArray>): 
 
     return difference
 }
+
+fun copyMatrix(matrix: Array<DoubleArray>): Array<DoubleArray> = matrix.map { it.copyOf() }.toTypedArray()

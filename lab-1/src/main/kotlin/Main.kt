@@ -18,11 +18,10 @@ data class InputData(
 
 fun main() {
     // ВАРІАНТ 12
-
-    val N = 3
-
     // А=В*МС+D*MZ+E*MM;
     // MG=min(D+E)*MM*MT-MZ*ME
+
+    val N = 3
 
     val B = generateVector(N)
     val MC = generateMatrix(N, N)
@@ -50,27 +49,27 @@ fun main() {
     val expressionA = ExpressionA(
         B = B,
         MC = MC,
-        D = D,
-        MZ = MZ,
-        E = E,
-        MM = MM,
+        D = D.copyOf(),
+        E = E.copyOf(),
+        MZ = copyMatrix(MZ),
+        MM = copyMatrix(MM),
     )
 
     val expressionMG = ExpressionMG(
-        D = D,
-        MZ = MZ,
-        E = E,
-        MM = MM,
         MT = MT,
-        ME = ME
+        ME = ME,
+        D = D.copyOf(),
+        E = E.copyOf(),
+        MZ = copyMatrix(MZ),
+        MM = copyMatrix(MM),
     )
 
-    val A = expressionA.calculate()
-    val MG = expressionMG.calculate()
+    val thread1 = Thread(expressionA)
+    val thread2 = Thread(expressionMG)
 
-    println("A")
-    printVector(A)
+    thread1.start();
+    thread2.start();
 
-    println("MG")
-    printMatrix(MG)
+    thread1.join()
+    thread2.join()
 }

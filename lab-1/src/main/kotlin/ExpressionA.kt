@@ -8,8 +8,8 @@ class ExpressionA(
     private val MZ: Array<DoubleArray>,
     private val E: DoubleArray,
     private val MM: Array<DoubleArray>
-) {
-    fun calculate(): DoubleArray {
+) : Runnable {
+    private fun calculate(): DoubleArray {
         // B*MC, D*MZ, E*MM
         val multipliedPairs = listOf(B to MC, D to MZ, E to MM)
             .map { multiplyVectorByMatrix(it.first, it.second) }
@@ -20,5 +20,10 @@ class ExpressionA(
         }
 
         return sum
+    }
+
+    override fun run() {
+        val A = calculate()
+        printVector(A)
     }
 }
