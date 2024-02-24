@@ -1,19 +1,5 @@
 package org.example
 
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class InputData(
-    val B: DoubleArray,
-    val MC: Array<DoubleArray>,
-    val D: DoubleArray,
-    val MZ: Array<DoubleArray>,
-    val E: DoubleArray,
-    val MM: Array<DoubleArray>,
-    val MT: Array<DoubleArray>,
-    val ME: Array<DoubleArray>
-)
-
 fun main() {
     // ВАРІАНТ 12
     // А=В*МС+D*MZ+E*MM;
@@ -22,7 +8,8 @@ fun main() {
     testExecutionTime(
         initialN = 100,
         step = 100,
-        iterationsCount = 10,
+        iterationsCount = 5,
+        outputFilePath = "./charts/variant_1.stats.json"
     ) {
         val expressionA = ExpressionA(
             B = it.B,

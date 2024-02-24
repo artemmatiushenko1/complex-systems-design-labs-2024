@@ -121,6 +121,7 @@ fun testExecutionTime(
     iterationsCount: Int,
     step: Int,
     initialN: Int,
+    outputFilePath: String,
     testingCode: (inputData: InputData) -> Unit
 ) {
     val statistics = mutableMapOf<Int, Long>()
@@ -136,7 +137,7 @@ fun testExecutionTime(
         println("N = $n, Execution time = ${executionTime}ms")
     }
 
-    val outputFile = File("../charts/variant_1.stats.json")
+    val outputFile = File(outputFilePath)
 
     outputFile.bufferedWriter().use { writer ->
         writer.write(Json.encodeToString(statistics))
