@@ -9,23 +9,16 @@ class ExpressionA(
     private val E: DoubleArray,
     private val MM: Array<DoubleArray>
 ) {
-    private fun multiplyVectorByMatrix(vector: DoubleArray, matrix: Array<DoubleArray>): DoubleArray {
-        val result = DoubleArray(vector.size)
-
-        for (i in matrix.indices) {
-            val products = vector.mapIndexed { j, el -> el * matrix[j][i] }
-            result[i] = kahanSum(*products.toDoubleArray())
-        }
-
-        return result
-    }
-
     fun calculate(): DoubleArray {
+        // B*MC, D*MZ, E*MM
         val multipliedPairs = listOf(B to MC, D to MZ, E to MM)
             .map { multiplyVectorByMatrix(it.first, it.second) }
 
-        return DoubleArray(multipliedPairs.first().size) { i ->
+        // B*MC + D*MZ + E*MM
+        val sum = DoubleArray(multipliedPairs.first().size) { i ->
             kahanSum(*multipliedPairs.map { it[i] }.toDoubleArray())
         }
+
+        return sum
     }
 }

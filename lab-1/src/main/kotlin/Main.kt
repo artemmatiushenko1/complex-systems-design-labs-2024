@@ -56,5 +56,21 @@ fun main() {
         MM = MM,
     )
 
-    printVector(expressionA.calculate())
+    val expressionMG = ExpressionMG(
+        D = D,
+        MZ = MZ,
+        E = E,
+        MM = MM,
+        MT = MT,
+        ME = ME
+    )
+
+    val A = expressionA.calculate()
+    val MG = expressionMG.calculate()
+
+    println("A")
+    printVector(A)
+
+    println("MG")
+    printMatrix(MG)
 }
