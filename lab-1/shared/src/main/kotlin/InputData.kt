@@ -4,6 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class InputData(
+    val n: Int,
+
     val B: DoubleArray,
     val MC: Array<DoubleArray>,
     val D: DoubleArray,

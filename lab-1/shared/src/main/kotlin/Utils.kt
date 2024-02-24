@@ -10,7 +10,8 @@ fun generateVector(size: Int): DoubleArray {
     val result = DoubleArray(size)
 
     for (i in 0 until size) {
-        result[i] = Random.nextDouble()
+//        result[i] = Random.nextDouble()
+        result[i] = 1.0
     }
 
     return result
@@ -104,6 +105,8 @@ fun copyMatrix(matrix: Array<DoubleArray>): Array<DoubleArray> = matrix.map { it
 
 fun generateInputData(n: Int): InputData {
     val data = InputData(
+        n = n,
+
         B = generateVector(n),
         MC = generateMatrix(n, n),
         D = generateVector(n),

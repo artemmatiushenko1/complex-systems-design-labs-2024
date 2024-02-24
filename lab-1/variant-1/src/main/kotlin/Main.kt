@@ -6,9 +6,9 @@ fun main() {
     // MG=min(D+E)*MM*MT-MZ*ME
 
     testExecutionTime(
-        initialN = 100,
+        initialN = 10,
         step = 100,
-        iterationsCount = 5,
+        iterationsCount = 1,
         outputFilePath = "./charts/variant_1.stats.json"
     ) {
         val expressionA = ExpressionA(
@@ -18,7 +18,7 @@ fun main() {
             E = it.E.copyOf(),
             MZ = copyMatrix(it.MZ),
             MM = copyMatrix(it.MM),
-            printOutput = false,
+            printOutput = true,
         )
 
         val expressionMG = ExpressionMG(
@@ -34,8 +34,8 @@ fun main() {
         val thread1 = Thread(expressionA)
         val thread2 = Thread(expressionMG)
 
-        thread1.start();
-        thread2.start();
+        thread1.start()
+        thread2.start()
 
         thread1.join()
         thread2.join()
