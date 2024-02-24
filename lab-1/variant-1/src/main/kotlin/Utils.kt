@@ -139,7 +139,7 @@ fun testExecutionTime(
         println("N = $n, Execution time = ${executionTime}ms")
     }
 
-    val outputFile = File("./charts/statistics.json")
+    val outputFile = File("../charts/variant_1.stats.json")
 
     outputFile.bufferedWriter().use { writer ->
         writer.write(Json.encodeToString(statistics))

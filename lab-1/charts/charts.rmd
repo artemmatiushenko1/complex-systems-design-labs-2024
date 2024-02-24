@@ -3,7 +3,7 @@
 library("jsonlite")
 library("ggplot2")
 
-json_data <- fromJSON("./statistics.json")
+json_data <- fromJSON("./variant_1.stats.json")
 
 df <- data.frame(N = as.numeric(names(json_data)),
                  ExecutionTime = unlist(json_data),
