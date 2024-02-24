@@ -7,7 +7,8 @@ class ExpressionA(
     private val D: DoubleArray,
     private val MZ: Array<DoubleArray>,
     private val E: DoubleArray,
-    private val MM: Array<DoubleArray>
+    private val MM: Array<DoubleArray>,
+    private val printOutput: Boolean,
 ) : Runnable {
     private fun calculate(): DoubleArray {
         // B*MC, D*MZ, E*MM
@@ -24,6 +25,9 @@ class ExpressionA(
 
     override fun run() {
         val A = calculate()
-        printVector(A)
+
+        if (printOutput) {
+            printVector(A)
+        }
     }
 }

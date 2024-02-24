@@ -7,7 +7,8 @@ class ExpressionMG(
     private val MM: Array<DoubleArray>,
     private val MT: Array<DoubleArray>,
     private val MZ: Array<DoubleArray>,
-    private val ME: Array<DoubleArray>
+    private val ME: Array<DoubleArray>,
+    private val printOutput: Boolean,
 ) : Runnable {
     private fun calculate(): Array<DoubleArray> {
         // min(D + E)
@@ -31,6 +32,9 @@ class ExpressionMG(
 
     override fun run() {
         val MG = calculate()
-        printMatrix(MG)
+
+        if (printOutput) {
+            printMatrix(MG)
+        }
     }
 }

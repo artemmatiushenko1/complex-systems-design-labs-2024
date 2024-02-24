@@ -1,6 +1,12 @@
 package org.example
 
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.awt.SystemColor.text
+import java.io.File
 import java.security.InvalidParameterException
+import javax.swing.text.html.HTML.Attribute.N
+import kotlin.system.measureTimeMillis
 
 fun generateVector(size: Int): DoubleArray {
     val result = DoubleArray(size)
@@ -98,3 +104,44 @@ fun subtractMatrices(matrixA: Array<DoubleArray>, matrixB: Array<DoubleArray>): 
 }
 
 fun copyMatrix(matrix: Array<DoubleArray>): Array<DoubleArray> = matrix.map { it.copyOf() }.toTypedArray()
+
+fun generateInputData(n: Int): InputData {
+    val data = InputData(
+        B = generateVector(n),
+        MC = generateMatrix(n, n),
+        D = generateVector(n),
+        MZ = generateMatrix(n, n),
+        E = generateVector(n),
+        MM = generateMatrix(n, n),
+        MT = generateMatrix(n, n),
+        ME = generateMatrix(n, n)
+    )
+
+    return data
+}
+
+fun testExecutionTime(
+    iterationsCount: Int,
+    step: Int,
+    initialN: Int,
+    testingCode: (inputData: InputData) -> Unit
+) {
+    val statistics = mutableMapOf<Int, Long>()
+
+    for (n in initialN..(iterationsCount * initialN) step step) {
+        val inputData = generateInputData(n)
+
+        val executionTime = measureTimeMillis {
+            testingCode(inputData)
+        }
+
+        statistics[n] = executionTime
+        println("N = $n, Execution time = ${executionTime}ms")
+    }
+
+    val outputFile = File("./charts/statistics.json")
+
+    outputFile.bufferedWriter().use { writer ->
+        writer.write(Json.encodeToString(statistics))
+    }
+}
