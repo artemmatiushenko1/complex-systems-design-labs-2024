@@ -1,0 +1,24 @@
+```{r}
+#install.packages("jsonlite")
+library("jsonlite")
+library("ggplot2")
+
+json_data <- fromJSON("./statistics.json")
+
+df <- data.frame(N = as.numeric(names(json_data)),
+                 ExecutionTime = unlist(json_data),
+                 stringsAsFactors = FALSE)
+```
+
+Building a chart
+
+```{r}
+ggplot(df, aes(x = N))+
+  geom_line(aes(y = ExecutionTime), color="#2ecc71")+
+  geom_point(aes(y = ExecutionTime), color="#1abc9c")+
+  ggtitle("Графік часу виконання першого варіанту паралельної програми \nзалежно від N") +
+  ylab("Час виконання, мс")+
+  xlab("N")+
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 12))+
+  geom_text(aes(y =ExecutionTime, label = ExecutionTime), vjust = -0.5, size = 3)
+```
