@@ -1,7 +1,8 @@
 package org.example
 
 class Thread1(
-    private val expressionA: ExpressionA
+    private val expressionA: ExpressionA,
+    private val expressionMG: ExpressionMG
 ) : Runnable {
     override fun run() {
         val n = expressionA.n
@@ -17,6 +18,10 @@ class Thread1(
 
         expressionA.barrier.await()
 
-        printVector(expressionA.result)
+        expressionMG.calc1(calculationRange)
+
+        expressionA.barrier.await()
+
+        println("Min = ${expressionMG.a}")
     }
 }

@@ -10,8 +10,8 @@ fun generateVector(size: Int): DoubleArray {
     val result = DoubleArray(size)
 
     for (i in 0 until size) {
-//        result[i] = Random.nextDouble()
-        result[i] = 1.0
+        result[i] = Random.nextDouble()
+//        result[i] = 1.0
     }
 
     return result
@@ -31,16 +31,14 @@ fun generateMatrix(cols: Int, rows: Int): Array<DoubleArray> {
     return result
 }
 
-val IO_LOCK = Any()
-
 fun printVector(vector: DoubleArray) {
-    synchronized(IO_LOCK) {
+    synchronized(SYSTEM_OUT_LOCK) {
         println(vector.joinToString(" "))
     }
 }
 
 fun printMatrix(matrix: Array<DoubleArray>) {
-    synchronized(IO_LOCK) {
+    synchronized(SYSTEM_OUT_LOCK) {
         for (i in matrix.indices) {
             println(matrix[i].joinToString(" "))
         }
