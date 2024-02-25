@@ -43,3 +43,4 @@ bin/
 
 ### Custom ###
 /data/*
+!/data/.gitkeep
