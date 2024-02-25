@@ -4,7 +4,7 @@ import java.util.concurrent.CyclicBarrier
 
 // А=В*МС+D*MZ+E*MM;
 class ExpressionA(
-    private val inputData: InputData
+    private val inputData: InputData,
 ) {
     val n: Int
         get() = inputData.n

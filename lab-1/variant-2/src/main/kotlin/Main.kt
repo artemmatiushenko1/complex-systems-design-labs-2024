@@ -5,17 +5,22 @@ fun main() {
     // А=В*МС+D*MZ+E*MM;
     // MG=min(D+E)*MM*MT-MZ*ME;
 
-    val inputData = generateInputData(3)
+    testExecutionTime(
+        initialN = 100,
+        step = 100,
+        iterationsCount = 15,
+        outputFilePath = "./charts/variant_2.stats.json"
+    ) {
+        val expressionA = ExpressionA(it)
+        val expressionMG = ExpressionMG(it)
 
-    val expressionA = ExpressionA(inputData)
-    val expressionMG = ExpressionMG(inputData)
+        val thread1 = Thread(Thread1(expressionA, expressionMG, false))
+        val thread2 = Thread(Thread2(expressionA, expressionMG))
 
-    val thread1 = Thread(Thread1(expressionA, expressionMG))
-    val thread2 = Thread(Thread2(expressionA, expressionMG))
+        thread1.start()
+        thread2.start()
 
-    thread1.start()
-    thread2.start()
-
-    thread1.join()
-    thread2.join()
+        thread1.join()
+        thread2.join()
+    }
 }

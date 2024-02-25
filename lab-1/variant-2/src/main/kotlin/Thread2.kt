@@ -2,7 +2,7 @@ package org.example
 
 class Thread2(
     private val expressionA: ExpressionA,
-    private val expressionMG: ExpressionMG
+    private val expressionMG: ExpressionMG,
 ) : Runnable {
     override fun run() {
         val n = expressionA.n

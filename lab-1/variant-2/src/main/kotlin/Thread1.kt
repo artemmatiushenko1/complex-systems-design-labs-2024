@@ -2,7 +2,8 @@ package org.example
 
 class Thread1(
     private val expressionA: ExpressionA,
-    private val expressionMG: ExpressionMG
+    private val expressionMG: ExpressionMG,
+    private val printOutput: Boolean,
 ) : Runnable {
     override fun run() {
         val n = expressionA.n
@@ -16,12 +17,16 @@ class Thread1(
 
         expressionA.barrier.await()
 
-        printVector(expressionA.result)
+        if (printOutput) {
+            printVector(expressionA.result)
+        }
 
         expressionMG.calc2(calculationRange)
 
         expressionMG.calculationsFinishBarrier.await()
 
-        printMatrix(expressionMG.result)
+        if (printOutput) {
+            printMatrix(expressionMG.result)
+        }
     }
 }
