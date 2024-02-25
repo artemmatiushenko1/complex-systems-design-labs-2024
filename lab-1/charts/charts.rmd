@@ -4,8 +4,8 @@
 library("jsonlite")
 library("ggplot2")
 
-variant_1_json <- fromJSON("./variant_1.stats.json")
-variant_2_json <- fromJSON("./variant_2.stats.json")
+variant_1_json <- fromJSON("../data/variant-1.report.json")
+variant_2_json <- fromJSON("../data/variant-2.report.json")
 
 variant_1_df <- data.frame(N = as.numeric(names(variant_1_json)),
                  ExecutionTime = unlist(variant_1_json),
