@@ -7,6 +7,7 @@ class Thread1(
     override fun run() {
         val result = expressionA.calculate()
 
+        println("${Thread1::class.simpleName} - calculation of expression A completed")
         if (printOutput) {
             printVector(result)
         }

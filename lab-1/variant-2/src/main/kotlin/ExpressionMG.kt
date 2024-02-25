@@ -20,7 +20,7 @@ class ExpressionMG(
         private val MIN_CALCULATION_LOCK = Any()
     }
 
-    val calculationsFinishBarrier = CyclicBarrier(APP_THREADS_COUNT)
+    val barrier = CyclicBarrier(APP_THREADS_COUNT)
 
     // a = min(DH + EH)
     fun calc1(range: IntRange) {

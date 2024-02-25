@@ -13,20 +13,17 @@ class Thread1(
 
         expressionA.barrier.await()
 
-        expressionMG.calc1(calculationRange)
-
-        expressionA.barrier.await()
-
+        println("${Thread1::class.simpleName} - calculation of expression A completed")
         if (printOutput) {
             printVector(expressionA.result)
         }
 
+        expressionMG.calc1(calculationRange)
+
+        expressionMG.barrier.await()
+
         expressionMG.calc2(calculationRange)
 
-        expressionMG.calculationsFinishBarrier.await()
-
-        if (printOutput) {
-            printMatrix(expressionMG.result)
-        }
+        expressionMG.barrier.await()
     }
 }

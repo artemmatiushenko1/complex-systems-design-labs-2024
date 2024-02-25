@@ -34,7 +34,7 @@ fun main() {
             n = n,
         )
 
-        val thread1 = Thread(Thread1(expressionA, expressionMG, n, false))
+        val thread1 = Thread(Thread1(expressionA, expressionMG, n))
         val thread2 = Thread(Thread2(expressionA, expressionMG, n))
 
         thread1.start()

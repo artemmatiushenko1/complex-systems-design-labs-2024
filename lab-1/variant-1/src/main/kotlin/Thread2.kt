@@ -7,6 +7,7 @@ class Thread2(
     override fun run() {
         val result = expressionMG.calculate()
 
+        println("${Thread2::class.simpleName} - calculation of expression MG completed")
         if (printOutput) {
             printMatrix(result)
         }
