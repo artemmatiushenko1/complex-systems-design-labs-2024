@@ -6,18 +6,22 @@ class Thread1(
 ) : Runnable {
     override fun run() {
         val n = expressionA.n
-        val calculationRange = 0 until (n / 2)
+        val calculationRange = 0 until (n / APP_THREADS_COUNT)
 
         expressionA.calc1(calculationRange)
 
         expressionA.barrier.await()
 
-        printVector(expressionA.result)
-
         expressionMG.calc1(calculationRange)
 
         expressionA.barrier.await()
 
-//        println("Min = ${expressionMG.a}")
+        printVector(expressionA.result)
+
+        expressionMG.calc2(calculationRange)
+
+        expressionMG.calculationsFinishBarrier.await()
+
+        printMatrix(expressionMG.result)
     }
 }

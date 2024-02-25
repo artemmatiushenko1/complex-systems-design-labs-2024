@@ -31,10 +31,10 @@ class ExpressionMG(
     }
 
     override fun run() {
-        val MG = calculate()
+        val result = calculate()
 
         if (printOutput) {
-            printMatrix(MG)
+            printMatrix(result)
         }
     }
 }

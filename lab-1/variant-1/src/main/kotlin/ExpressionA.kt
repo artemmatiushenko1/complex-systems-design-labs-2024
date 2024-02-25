@@ -24,10 +24,10 @@ class ExpressionA(
     }
 
     override fun run() {
-        val A = calculate()
+        val result = calculate()
 
         if (printOutput) {
-            printVector(A)
+            printVector(result)
         }
     }
 }

@@ -6,7 +6,7 @@ class Thread2(
 ) : Runnable {
     override fun run() {
         val n = expressionA.n
-        val calculationRange = (n / 2) until n
+        val calculationRange = (n / APP_THREADS_COUNT) until n
 
         expressionA.calc1(calculationRange)
 
@@ -15,5 +15,9 @@ class Thread2(
         expressionMG.calc1(calculationRange)
 
         expressionA.barrier.await()
+
+        expressionMG.calc2(calculationRange)
+
+        expressionMG.calculationsFinishBarrier.await()
     }
 }
