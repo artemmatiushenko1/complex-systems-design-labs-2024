@@ -3,15 +3,23 @@ package org.example
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
+import kotlin.math.pow
 import kotlin.random.Random
 import kotlin.system.measureTimeMillis
+
+fun generateDouble(): Double {
+    val decimalPlaces = Random.nextInt(0, 14)
+
+    val randomNumber = Random.nextDouble(0.0, 100.0)
+
+    return Math.round(randomNumber * 10.0.pow(decimalPlaces.toDouble())) / 10.0.pow(decimalPlaces.toDouble());
+}
 
 fun generateVector(size: Int): DoubleArray {
     val result = DoubleArray(size)
 
     for (i in 0 until size) {
-        result[i] = Random.nextDouble()
-//        result[i] = 1.0
+        result[i] = generateDouble()
     }
 
     return result
