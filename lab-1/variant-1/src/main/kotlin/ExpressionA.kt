@@ -9,6 +9,8 @@ class ExpressionA(
     private val E: DoubleArray,
     private val MM: Array<DoubleArray>,
 ) {
+    var result: DoubleArray? = null
+
     fun calculate(): DoubleArray {
         // B*MC, D*MZ, E*MM
         val multipliedPairs = listOf(B to MC, D to MZ, E to MM)
@@ -18,6 +20,8 @@ class ExpressionA(
         val sum = DoubleArray(multipliedPairs.first().size) { i ->
             kahanSum(*multipliedPairs.map { it[i] }.toDoubleArray())
         }
+
+        result = sum
 
         return sum
     }

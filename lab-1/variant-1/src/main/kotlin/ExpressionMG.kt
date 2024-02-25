@@ -9,6 +9,8 @@ class ExpressionMG(
     private val MZ: Array<DoubleArray>,
     private val ME: Array<DoubleArray>,
 ) {
+    var result: Array<DoubleArray>? = null
+
     fun calculate(): Array<DoubleArray> {
         // min(D + E)
         val scalar = D.zip(E).minOf { kahanSum(it.first, it.second) }
@@ -25,6 +27,8 @@ class ExpressionMG(
 
         // (min(D + E) * MM) * MT - MZ * ME
         val difference = subtractMatrices(minuend, subtrahend)
+
+        result = difference
 
         return difference
     }

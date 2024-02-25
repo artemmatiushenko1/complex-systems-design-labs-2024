@@ -10,8 +10,8 @@ fun generateVector(size: Int): DoubleArray {
     val result = DoubleArray(size)
 
     for (i in 0 until size) {
-        result[i] = Random.nextDouble()
-//        result[i] = 1.0
+//        result[i] = Random.nextDouble()
+        result[i] = 1.0
     }
 
     return result
@@ -103,8 +103,6 @@ fun copyMatrix(matrix: Array<DoubleArray>): Array<DoubleArray> = matrix.map { it
 
 fun generateInputData(n: Int): InputData {
     val data = InputData(
-        n = n,
-
         B = generateVector(n),
         MC = generateMatrix(n, n),
         D = generateVector(n),
@@ -118,29 +116,53 @@ fun generateInputData(n: Int): InputData {
     return data
 }
 
+inline fun <reified T> writeJsonFile(data: T, filepath: String): File {
+    val outputFile = File(filepath)
+
+    outputFile.bufferedWriter().use { writer ->
+        writer.write(Json.encodeToString(data))
+    }
+
+    return outputFile
+}
+
+fun getInputData(n: Int): InputData {
+    val inputData: InputData
+
+    val inputDataFile = File("data/input-$n.json")
+
+    if (inputDataFile.exists()) {
+        println("Using existing input file -> ${inputDataFile.absolutePath}")
+        val inputDataJson = File("data/input-$n.json").readText()
+        inputData = Json.decodeFromString<InputData>(inputDataJson)
+    } else {
+        println("No input data found for N = $n. Generating...")
+        inputData = generateInputData(n)
+        writeJsonFile(inputData, "data/input-$n.json")
+    }
+
+    return inputData
+}
+
 fun testExecutionTime(
     iterationsCount: Int,
     step: Int,
     initialN: Int,
     outputFilePath: String,
-    testingCode: (inputData: InputData) -> Unit
+    testingCode: (n: Int) -> Unit
 ) {
     val statistics = mutableMapOf<Int, Long>()
 
     for (n in initialN..(iterationsCount * initialN) step step) {
-        val inputData = generateInputData(n)
-
         val executionTime = measureTimeMillis {
-            testingCode(inputData)
+            testingCode(n)
         }
 
         statistics[n] = executionTime
-        println("N = $n, Execution time = ${executionTime}ms")
+        println("Completed in ${executionTime}ms.")
+        println()
     }
 
-    val outputFile = File(outputFilePath)
-
-    outputFile.bufferedWriter().use { writer ->
-        writer.write(Json.encodeToString(statistics))
-    }
+    val reportFile = writeJsonFile(statistics, outputFilePath)
+    println("Execution time report saved to: ${reportFile.absolutePath}")
 }

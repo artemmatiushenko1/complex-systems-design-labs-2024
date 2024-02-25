@@ -8,36 +8,44 @@ fun main() {
     testExecutionTime(
         initialN = 100,
         step = 100,
-        iterationsCount = 5,
-        outputFilePath = "./charts/variant_2.stats.json"
-    ) {
+        iterationsCount = 10,
+        outputFilePath = "data/variant-2.report.json"
+    ) { n ->
+        println("Computing expressions for N = $n")
+        val inputData: InputData = getInputData(n)
+
         val expressionA = ExpressionA(
-            B = it.B,
-            MC = it.MC,
-            D = it.D,
-            E = it.E,
-            MZ = it.MZ,
-            MM = it.MM,
-            n = it.n,
+            B = inputData.B,
+            MC = inputData.MC,
+            D = inputData.D,
+            E = inputData.E,
+            MZ = inputData.MZ,
+            MM = inputData.MM,
+            n = n,
         )
 
         val expressionMG = ExpressionMG(
-            MT = it.MT,
-            ME = it.ME,
-            D = it.D,
-            E = it.E,
-            MZ = it.MZ,
-            MM = it.MM,
-            n = it.n,
+            MT = inputData.MT,
+            ME = inputData.ME,
+            D = inputData.D,
+            E = inputData.E,
+            MZ = inputData.MZ,
+            MM = inputData.MM,
+            n = n,
         )
 
-        val thread1 = Thread(Thread1(expressionA, expressionMG, it.n, false))
-        val thread2 = Thread(Thread2(expressionA, expressionMG, it.n))
+        val thread1 = Thread(Thread1(expressionA, expressionMG, n, false))
+        val thread2 = Thread(Thread2(expressionA, expressionMG, n))
 
         thread1.start()
         thread2.start()
 
         thread1.join()
         thread2.join()
+
+        writeJsonFile(
+            CalculationResult(expressionA.result, expressionMG.result),
+            "data/variant-2-output-$n.json",
+        )
     }
 }
