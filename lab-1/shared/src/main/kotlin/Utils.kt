@@ -31,14 +31,16 @@ fun generateMatrix(cols: Int, rows: Int): Array<DoubleArray> {
     return result
 }
 
-fun printVector(vector: DoubleArray) {
+fun printVector(vector: DoubleArray, message: String?) {
     synchronized(SYSTEM_OUT_LOCK) {
+        println(message)
         println(vector.joinToString(" "))
     }
 }
 
-fun printMatrix(matrix: Array<DoubleArray>) {
+fun printMatrix(matrix: Array<DoubleArray>, message: String?) {
     synchronized(SYSTEM_OUT_LOCK) {
+        println(message)
         for (i in matrix.indices) {
             println(matrix[i].joinToString(" "))
         }

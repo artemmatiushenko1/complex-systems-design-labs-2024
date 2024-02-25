@@ -6,10 +6,9 @@ class Thread1(
 ) : Runnable {
     override fun run() {
         expressionA.calculate()
-
-        println("${Thread1::class.simpleName} - calculation of expression A completed")
+        
         if (printOutput) {
-            printVector(expressionA.result)
+            printVector(expressionA.result, "${Thread1::class.simpleName} - calculation of expression A completed")
         }
     }
 }

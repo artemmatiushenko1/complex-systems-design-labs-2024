@@ -21,9 +21,8 @@ class Thread2(
 
         expressionMG.barrier.await()
 
-        println("${Thread2::class.simpleName} - calculation of expression MG completed")
         if (printOutput) {
-            printMatrix(expressionMG.result)
+            printMatrix(expressionMG.result, "${Thread2::class.simpleName} - calculation of expression MG completed")
         }
     }
 }
