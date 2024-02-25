@@ -10,8 +10,8 @@ fun generateVector(size: Int): DoubleArray {
     val result = DoubleArray(size)
 
     for (i in 0 until size) {
-        result[i] = Random.nextDouble()
-//        result[i] = 1.0
+//        result[i] = Random.nextDouble()
+        result[i] = 1.0
     }
 
     return result

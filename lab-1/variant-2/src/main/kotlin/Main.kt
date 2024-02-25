@@ -5,7 +5,7 @@ fun main() {
     // А=В*МС+D*MZ+E*MM;
     // MG=min(D+E)*MM*MT-MZ*ME;
 
-    val inputData = generateInputData(6)
+    val inputData = generateInputData(3)
 
     val expressionA = ExpressionA(inputData)
     val expressionMG = ExpressionMG(inputData)

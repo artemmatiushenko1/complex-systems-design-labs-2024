@@ -9,19 +9,15 @@ class Thread1(
         val calculationRange = 0 until (n / 2)
 
         expressionA.calc1(calculationRange)
-        expressionA.calc2(calculationRange)
-        expressionA.calc3(calculationRange)
 
         expressionA.barrier.await()
 
-        expressionA.calc4(calculationRange)
-
-        expressionA.barrier.await()
+        printVector(expressionA.result)
 
         expressionMG.calc1(calculationRange)
 
         expressionA.barrier.await()
 
-        println("Min = ${expressionMG.a}")
+//        println("Min = ${expressionMG.a}")
     }
 }

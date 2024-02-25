@@ -9,12 +9,6 @@ class Thread2(
         val calculationRange = (n / 2) until n
 
         expressionA.calc1(calculationRange)
-        expressionA.calc2(calculationRange)
-        expressionA.calc3(calculationRange)
-
-        expressionA.barrier.await()
-
-        expressionA.calc4(calculationRange)
 
         expressionA.barrier.await()
 
