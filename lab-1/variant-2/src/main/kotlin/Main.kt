@@ -8,14 +8,31 @@ fun main() {
     testExecutionTime(
         initialN = 100,
         step = 100,
-        iterationsCount = 15,
+        iterationsCount = 5,
         outputFilePath = "./charts/variant_2.stats.json"
     ) {
-        val expressionA = ExpressionA(it)
-        val expressionMG = ExpressionMG(it)
+        val expressionA = ExpressionA(
+            B = it.B,
+            MC = it.MC,
+            D = it.D,
+            E = it.E,
+            MZ = it.MZ,
+            MM = it.MM,
+            n = it.n,
+        )
 
-        val thread1 = Thread(Thread1(expressionA, expressionMG, false))
-        val thread2 = Thread(Thread2(expressionA, expressionMG))
+        val expressionMG = ExpressionMG(
+            MT = it.MT,
+            ME = it.ME,
+            D = it.D,
+            E = it.E,
+            MZ = it.MZ,
+            MM = it.MM,
+            n = it.n,
+        )
+
+        val thread1 = Thread(Thread1(expressionA, expressionMG, it.n, false))
+        val thread2 = Thread(Thread2(expressionA, expressionMG, it.n))
 
         thread1.start()
         thread2.start()

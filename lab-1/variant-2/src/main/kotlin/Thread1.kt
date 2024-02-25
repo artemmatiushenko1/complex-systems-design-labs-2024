@@ -3,10 +3,10 @@ package org.example
 class Thread1(
     private val expressionA: ExpressionA,
     private val expressionMG: ExpressionMG,
-    private val printOutput: Boolean,
+    private val n: Int,
+    private val printOutput: Boolean = false,
 ) : Runnable {
     override fun run() {
-        val n = expressionA.n
         val calculationRange = 0 until (n / APP_THREADS_COUNT)
 
         expressionA.calc1(calculationRange)

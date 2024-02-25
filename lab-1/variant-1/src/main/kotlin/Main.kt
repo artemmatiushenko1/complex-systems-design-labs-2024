@@ -29,8 +29,8 @@ fun main() {
             MM = copyMatrix(it.MM),
         )
 
-        val thread1 = Thread(Thread1(expressionA, printOutput = false))
-        val thread2 = Thread(Thread2(expressionMG, printOutput = false))
+        val thread1 = Thread(Thread1(expressionA))
+        val thread2 = Thread(Thread2(expressionMG))
 
         thread1.start()
         thread2.start()

@@ -4,23 +4,26 @@ import java.util.concurrent.CyclicBarrier
 
 // А=В*МС+D*MZ+E*MM;
 class ExpressionA(
-    private val inputData: InputData,
+    private val B: DoubleArray,
+    private val MC: Array<DoubleArray>,
+    private val D: DoubleArray,
+    private val MZ: Array<DoubleArray>,
+    private val E: DoubleArray,
+    private val MM: Array<DoubleArray>,
+    private val n: Int,
 ) {
-    val n: Int
-        get() = inputData.n
-
     val barrier = CyclicBarrier(APP_THREADS_COUNT)
 
-    val result = DoubleArray(inputData.n)
+    val result = DoubleArray(n)
 
     // AH = В*МСH + D*MZH + E*MMH
     fun calc1(range: IntRange) {
         for (i in range) {
             val sumPerItem = DoubleArray(n) { j ->
                 kahanSum(
-                    inputData.B[j] * inputData.MC[j][i],
-                    inputData.D[j] * inputData.MZ[j][i],
-                    inputData.E[j] * inputData.MM[j][i]
+                    B[j] * MC[j][i],
+                    D[j] * MZ[j][i],
+                    E[j] * MM[j][i]
                 )
             }
 
