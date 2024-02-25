@@ -8,7 +8,7 @@ fun main() {
     testExecutionTime(
         initialN = 100,
         step = 100,
-        iterationsCount = 15,
+        iterationsCount = 5,
         outputFilePath = "./charts/variant_1.stats.json"
     ) {
         val expressionA = ExpressionA(
@@ -18,7 +18,6 @@ fun main() {
             E = it.E.copyOf(),
             MZ = copyMatrix(it.MZ),
             MM = copyMatrix(it.MM),
-            printOutput = false,
         )
 
         val expressionMG = ExpressionMG(
@@ -28,11 +27,10 @@ fun main() {
             E = it.E.copyOf(),
             MZ = copyMatrix(it.MZ),
             MM = copyMatrix(it.MM),
-            printOutput = false
         )
 
-        val thread1 = Thread(expressionA)
-        val thread2 = Thread(expressionMG)
+        val thread1 = Thread(Thread1(expressionA, printOutput = false))
+        val thread2 = Thread(Thread2(expressionMG, printOutput = false))
 
         thread1.start()
         thread2.start()
