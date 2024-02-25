@@ -5,11 +5,11 @@ class Thread2(
     private val printOutput: Boolean = false,
 ) : Runnable {
     override fun run() {
-        val result = expressionMG.calculate()
+        expressionMG.calculate()
 
         println("${Thread2::class.simpleName} - calculation of expression MG completed")
         if (printOutput) {
-            printMatrix(result)
+            printMatrix(expressionMG.result)
         }
     }
 }

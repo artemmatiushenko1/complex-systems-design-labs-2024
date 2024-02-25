@@ -8,28 +8,22 @@ class ExpressionMG(
     private val MT: Array<DoubleArray>,
     private val MZ: Array<DoubleArray>,
     private val ME: Array<DoubleArray>,
+    private val n: Int,
 ) {
-    var result: Array<DoubleArray>? = null
+    var result = Array(n) { DoubleArray(n) }
 
-    fun calculate(): Array<DoubleArray> {
-        // min(D + E)
-        val scalar = D.zip(E).minOf { kahanSum(it.first, it.second) }
+    fun calculate() {
+        // a=min(D + E)
+        val a = D.zip(E).minOf { kahanSum(it.first, it.second) }
 
-        // min(D + E) * MM
-        val scalarByMatrixProduct = MM.map { row -> row.map { col -> col * scalar }.toDoubleArray() }
-            .toTypedArray()
+        // MG=a*MM*MT-MZ*ME
+        for (i in 0 until n) {
+            for (j in 0 until n) {
+                val products1 = DoubleArray(n) { k -> MM[j][k] * MT[k][i] }
+                val products2 = DoubleArray(n) { k -> MZ[j][k] * ME[k][i] }
 
-        // (min(D + E) * MM) * MT
-        val minuend = multiplyMatrices(scalarByMatrixProduct, MT)
-
-        // MZ * ME
-        val subtrahend = multiplyMatrices(MZ, ME)
-
-        // (min(D + E) * MM) * MT - MZ * ME
-        val difference = subtractMatrices(minuend, subtrahend)
-
-        result = difference
-
-        return difference
+                result[j][i] = a * kahanSum(*products1) - kahanSum(*products2)
+            }
+        }
     }
 }

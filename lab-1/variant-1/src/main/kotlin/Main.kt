@@ -31,6 +31,7 @@ fun main() {
             E = inputData.E.copyOf(),
             MZ = copyMatrix(inputData.MZ),
             MM = copyMatrix(inputData.MM),
+            n = n
         )
 
         val thread1 = Thread(Thread1(expressionA))
