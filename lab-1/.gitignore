@@ -40,3 +40,9 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Custom ###
+/data/variant-1-output-*
+/data/variant-2-output-*
+/data/variant-1.report
+/data/variant-2.report

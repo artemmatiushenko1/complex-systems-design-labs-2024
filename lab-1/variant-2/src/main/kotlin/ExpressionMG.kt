@@ -22,7 +22,7 @@ class ExpressionMG(
 
     val barrier = CyclicBarrier(APP_THREADS_COUNT)
 
-    // a = min(DH + EH)
+    // a=min(DH+EH)
     fun calc1(range: IntRange) {
         val rangeMin = D
             .slice(range)
@@ -43,7 +43,7 @@ class ExpressionMG(
                 val products1 = DoubleArray(n) { k -> MM[j][k] * MT[k][i] }
                 val products2 = DoubleArray(n) { k -> MZ[j][k] * ME[k][i] }
 
-                result[i][j] = a * kahanSum(*products1) - kahanSum(*products2)
+                result[j][i] = a * kahanSum(*products1) - kahanSum(*products2)
             }
         }
     }
