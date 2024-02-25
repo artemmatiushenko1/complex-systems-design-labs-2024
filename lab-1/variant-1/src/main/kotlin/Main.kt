@@ -21,6 +21,7 @@ fun main() {
             E = inputData.E.copyOf(),
             MZ = copyMatrix(inputData.MZ),
             MM = copyMatrix(inputData.MM),
+            n = n
         )
 
         val expressionMG = ExpressionMG(
@@ -42,7 +43,7 @@ fun main() {
         thread2.join()
 
         writeJsonFile(
-            CalculationResult(expressionA.result!!, expressionMG.result!!),
+            CalculationResult(expressionA.result, expressionMG.result!!),
             "data/variant-1-output-$n.json",
         )
     }

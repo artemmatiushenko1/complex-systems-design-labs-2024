@@ -76,17 +76,6 @@ fun multiplyMatrices(matrixA: Array<DoubleArray>, matrixB: Array<DoubleArray>): 
     return result
 }
 
-fun multiplyVectorByMatrix(vector: DoubleArray, matrix: Array<DoubleArray>): DoubleArray {
-    val result = DoubleArray(vector.size)
-
-    for (i in matrix.indices) {
-        val products = vector.mapIndexed { j, el -> el * matrix[j][i] }
-        result[i] = kahanSum(*products.toDoubleArray())
-    }
-
-    return result
-}
-
 fun subtractMatrices(matrixA: Array<DoubleArray>, matrixB: Array<DoubleArray>): Array<DoubleArray> {
     val difference = Array(matrixA.size) { DoubleArray(matrixA.size) }
 

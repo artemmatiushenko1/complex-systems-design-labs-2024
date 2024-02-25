@@ -8,21 +8,21 @@ class ExpressionA(
     private val MZ: Array<DoubleArray>,
     private val E: DoubleArray,
     private val MM: Array<DoubleArray>,
+    private val n: Int,
 ) {
-    var result: DoubleArray? = null
+    var result: DoubleArray = DoubleArray(n)
 
-    fun calculate(): DoubleArray {
-        // B*MC, D*MZ, E*MM
-        val multipliedPairs = listOf(B to MC, D to MZ, E to MM)
-            .map { multiplyVectorByMatrix(it.first, it.second) }
+    fun calculate() {
+        for (i in 0 until n) {
+            val sumPerItem = DoubleArray(n) { j ->
+                kahanSum(
+                    B[j] * MC[j][i],
+                    D[j] * MZ[j][i],
+                    E[j] * MM[j][i]
+                )
+            }
 
-        // B*MC + D*MZ + E*MM
-        val sum = DoubleArray(multipliedPairs.first().size) { i ->
-            kahanSum(*multipliedPairs.map { it[i] }.toDoubleArray())
+            result[i] = kahanSum(*sumPerItem)
         }
-
-        result = sum
-
-        return sum
     }
 }
