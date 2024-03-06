@@ -1,6 +1,7 @@
 package org.example
 
 import java.util.concurrent.CyclicBarrier
+import java.util.concurrent.locks.ReentrantLock
 
 // MG=min(D+E)*MM*MT-MZ*ME;
 class ExpressionMG(
@@ -18,6 +19,7 @@ class ExpressionMG(
 
     companion object {
         private val MIN_CALCULATION_LOCK = Any()
+        private val FINAL_CALCULATION_LOCK = ReentrantLock()
     }
 
     val barrier = CyclicBarrier(APP_THREADS_COUNT)
@@ -43,7 +45,12 @@ class ExpressionMG(
                 val products1 = DoubleArray(n) { k -> MM[j][k] * MT[k][i] }
                 val products2 = DoubleArray(n) { k -> MZ[j][k] * ME[k][i] }
 
-                result[j][i] = a * kahanSum(*products1) - kahanSum(*products2)
+                FINAL_CALCULATION_LOCK.lock()
+                try {
+                    result[j][i] = a * kahanSum(*products1) - kahanSum(*products2)
+                } finally {
+                    FINAL_CALCULATION_LOCK.unlock()
+                }
             }
         }
     }

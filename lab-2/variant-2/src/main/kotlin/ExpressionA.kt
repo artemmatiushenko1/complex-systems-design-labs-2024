@@ -1,6 +1,7 @@
 package org.example
 
 import java.util.concurrent.CyclicBarrier
+import java.util.concurrent.locks.ReentrantLock
 
 // А=В*МС+D*MZ+E*MM;
 class ExpressionA(
@@ -16,6 +17,10 @@ class ExpressionA(
 
     val result = DoubleArray(n)
 
+    companion object {
+        private val FINAL_CALCULATION_LOCK = ReentrantLock()
+    }
+
     // AH = В*МСH + D*MZH + E*MMH
     fun calc1(range: IntRange) {
         for (i in range) {
@@ -27,7 +32,12 @@ class ExpressionA(
                 )
             }
 
-            result[i] = kahanSum(*sumPerItem)
+            FINAL_CALCULATION_LOCK.lock()
+            try {
+                result[i] = kahanSum(*sumPerItem)
+            } finally {
+                FINAL_CALCULATION_LOCK.unlock()
+            }
         }
     }
 }
