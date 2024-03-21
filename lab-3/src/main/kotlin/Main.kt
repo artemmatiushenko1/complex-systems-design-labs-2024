@@ -2,7 +2,7 @@ import java.sql.Connection
 import java.sql.DriverManager
 
 fun main() {
-    val dataManager = DataManager(2000)
+    val dataManager = DataManager(dataSetFileName = "./data/homework-data-set.json", dataSetSize = 2000)
     dataManager.getDataSet()
 
 //    val url = "jdbc:postgresql://localhost:5432/complex-systems-design"

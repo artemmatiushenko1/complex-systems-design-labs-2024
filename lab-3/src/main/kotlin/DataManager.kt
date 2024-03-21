@@ -6,14 +6,10 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class DataManager(
-    private val dataSetSize: Int = DEFAULT_DATASET_SIZE
+    private val dataSetFileName: String,
+    private val dataSetSize: Int
 ) {
     private val faker = Faker()
-
-    companion object {
-        val DATASET_FILENAME = "homework-data-set.json"
-        val DEFAULT_DATASET_SIZE = 1000
-    }
 
     private fun createPopulatedEntity(id: Int): Homework {
         val formatter = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
@@ -44,11 +40,11 @@ class DataManager(
     }
 
     private fun saveDataSetToJsonFile(dataSet: Set<Homework>) {
-        writeJsonFile(dataSet, DATASET_FILENAME)
+        writeJsonFile(dataSet, dataSetFileName)
     }
 
     fun getDataSet(): Set<Homework> {
-        val existingDataSet = readJsonFileOrNull<Set<Homework>>(DATASET_FILENAME)
+        val existingDataSet = readJsonFileOrNull<Set<Homework>>(dataSetFileName)
 
         if(existingDataSet != null) {
             return existingDataSet
