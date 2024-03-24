@@ -15,14 +15,14 @@ fun main() {
         globalHomeworksRepository.createTable()
 
         val thread1 = Thread(
-            Thread1(
+            ThreadCreator(
                 connectionsPull.getConnection(),
                 homeworksDataSet.slice(0..<(dataSetSize / 2))
             )
         )
 
         val thread2 = Thread(
-            Thread2(
+            ThreadCreator(
                 connectionsPull.getConnection(),
                 homeworksDataSet.slice(dataSetSize / 2..<dataSetSize)
             )

@@ -1,9 +1,8 @@
-import Constants.GET_HOMEWORKS_BY_ID_LOCK
-import Constants.TRANSACTION_LOCK
+import Constants.GET_HOMEWORKS_BY_ID_PRINT_LOCK
 import Constants.UPDATE_LOCK
+import HomeworksRepository.Companion.TABLE_NAME
 import java.sql.Connection
 import java.sql.ResultSet
-import java.sql.SQLException
 import kotlin.concurrent.withLock
 
 class HomeworksRepository(private val connection: Connection) {
@@ -11,36 +10,17 @@ class HomeworksRepository(private val connection: Connection) {
         const val TABLE_NAME = "homeworks"
     }
 
-    private fun transaction(transactionCode: () -> Unit) {
-        TRANSACTION_LOCK.withLock {
-            try {
-                connection.autoCommit = false
-
-                transactionCode()
-
-                connection.commit()
-            } catch (e: Exception) {
-                connection.rollback()
-
-                println("❌ Transaction failed!")
-                println(e)
-            } finally {
-                connection.autoCommit = true
-            }
-        }
-    }
-
     private fun runUpdate(getSql: () -> String) {
         println(getSql())
 
-        try {
-            UPDATE_LOCK.withLock {
+        UPDATE_LOCK.withLock {
+            try {
                 val statement = connection.createStatement()
                 statement.executeUpdate(getSql().trimIndent())
+            } catch (e: Exception) {
+                println("❌ Failed to execute update!")
+                println(e)
             }
-        } catch (e: Exception) {
-            println("❌ Failed to execute update!")
-            println(e)
         }
     }
 
@@ -91,31 +71,10 @@ class HomeworksRepository(private val connection: Connection) {
         }
     }
 
-    fun markHomeworksAsDone(homeworkIds: List<Int>) {
-        runUpdate {
-            "UPDATE $TABLE_NAME SET isDone = true WHERE id IN (${homeworkIds.joinToString(", ")})"
-        }
-    }
-
-    fun updateReceivedScore(homeworkIds: List<Int>) {
-        transaction {
-            for (id in homeworkIds) {
-                val maxScoreResultSet = runQuery { "SELECT maxScore FROM $TABLE_NAME WHERE id = $id" }
-                var maxScore: Int? = null
-
-                if (maxScoreResultSet != null) {
-                    if (maxScoreResultSet.next()) {
-                        maxScore = maxScoreResultSet.getInt("maxScore")
-                    } else {
-                        println("No maxScore found for homework id $id")
-                    }
-                }
-
-                if (maxScore != null) {
-                    runUpdate {
-                        "UPDATE $TABLE_NAME SET receivedScore = $maxScore WHERE id = $id"
-                    }
-                }
+    fun toggleAllHomeworksIsDone() {
+        UPDATE_LOCK.withLock {
+            runUpdate {
+                "UPDATE $TABLE_NAME SET isDone = NOT isDone"
             }
         }
     }
@@ -138,7 +97,7 @@ class HomeworksRepository(private val connection: Connection) {
             val receivedScore = resultSet.getInt("receivedScore")
             val isDone = resultSet.getBoolean("isDone")
 
-            GET_HOMEWORKS_BY_ID_LOCK.withLock {
+            GET_HOMEWORKS_BY_ID_PRINT_LOCK.withLock {
                 println("ID: $id, Student: $studentFullName, Homework: $title, Due Date: $dueDate, Max Score: $maxScore, Received Score: $receivedScore, Is Done: $isDone")
             }
         }

@@ -7,6 +7,7 @@ class ConnectionsPull {
 
     init {
         val config = HikariConfig()
+
         config.jdbcUrl = "jdbc:postgresql://localhost:5432/complex-systems-design"
         config.username = "artemmatiushenko"
         config.password = "postgres"

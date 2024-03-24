@@ -1,7 +1,7 @@
 import Constants.INSERT_SYNC_BARRIER
 import java.sql.Connection
 
-class Thread1(
+class ThreadCreator(
     private val connection: Connection,
     private val homeworksToInsert: List<Homework>,
 ) : Runnable {
@@ -16,7 +16,7 @@ class Thread1(
 
         homeworksRepository.getHomeworksById(homeworkIds)
 
-        homeworksRepository.markHomeworksAsDone(homeworkIds)
+        homeworksRepository.toggleAllHomeworksIsDone()
 
         homeworksRepository.deleteHomeworks(homeworkIds)
 
