@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class DataManager(
+class DataSetGenerator(
     private val dataSetSize: Int,
 ) {
     private val faker = Faker()

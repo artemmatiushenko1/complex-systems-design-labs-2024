@@ -2,12 +2,12 @@ fun main() {
     val connectionsPull = ConnectionsPull()
 
     val dataSetSize = 1000
-    val homeworksDataSet = DataManager(dataSetSize).getDataSet()
+    val homeworksDataSet = DataSetGenerator(dataSetSize).getDataSet()
 
     val globalHomeworksRepository = HomeworksRepository(connectionsPull.getConnection())
 
     testExecutionTime(
-        iterationsCount = 1,
+        iterationsCount = 50,
         outputFilePath = "data/execution-time.report.json",
         step = 1,
         initialN = 1

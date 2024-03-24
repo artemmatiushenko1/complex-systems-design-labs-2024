@@ -72,10 +72,8 @@ class HomeworksRepository(private val connection: Connection) {
     }
 
     fun toggleAllHomeworksIsDone() {
-        UPDATE_LOCK.withLock {
-            runUpdate {
-                "UPDATE $TABLE_NAME SET isDone = NOT isDone"
-            }
+        runUpdate {
+            "UPDATE $TABLE_NAME SET isDone = NOT isDone"
         }
     }
 
