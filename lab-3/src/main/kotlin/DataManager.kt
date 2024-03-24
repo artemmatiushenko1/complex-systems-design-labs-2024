@@ -1,4 +1,3 @@
-
 import com.github.javafaker.Faker
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -6,8 +5,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 class DataManager(
-    private val dataSetFileName: String,
-    private val dataSetSize: Int
+    private val dataSetSize: Int,
 ) {
     private val faker = Faker()
 
@@ -29,29 +27,26 @@ class DataManager(
         )
     }
 
-    private fun generateDataSet(): Set<Homework> {
-        val dataSet = mutableSetOf<Homework>()
+    private fun generateDataSet(): List<Homework> {
+        val dataSet = mutableListOf<Homework>()
 
-        for(i in 1..dataSetSize) {
+        for (i in 1..dataSetSize) {
             dataSet.add(createPopulatedEntity(i))
         }
 
-        return dataSet.toSet()
+        return dataSet
     }
 
-    private fun saveDataSetToJsonFile(dataSet: Set<Homework>) {
-        writeJsonFile(dataSet, dataSetFileName)
-    }
+    fun getDataSet(): List<Homework> {
+        val filename = "./data/homework-data-set-$dataSetSize.json"
+        val existingDataSet = readJsonFileOrNull<List<Homework>>(filename)
 
-    fun getDataSet(): Set<Homework> {
-        val existingDataSet = readJsonFileOrNull<Set<Homework>>(dataSetFileName)
-
-        if(existingDataSet != null) {
+        if (existingDataSet != null) {
             return existingDataSet
         }
 
         val newDataSet = generateDataSet()
-        saveDataSetToJsonFile(newDataSet)
+        writeJsonFile(newDataSet, filename)
 
         return newDataSet
     }

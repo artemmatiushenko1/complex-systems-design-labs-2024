@@ -1,41 +1,39 @@
-import java.sql.Connection
-import java.sql.DriverManager
-
 fun main() {
-    val dataManager = DataManager(dataSetFileName = "./data/homework-data-set.json", dataSetSize = 2000)
-    dataManager.getDataSet()
+    val connectionsPull = ConnectionsPull()
 
-//    val url = "jdbc:postgresql://localhost:5432/complex-systems-design"
-//    val user = "artemmatiushenko"
-//    val password = "postgres"
-//
-//    var connection: Connection? = null
-//
-//    try {
-//        Class.forName("org.postgresql.Driver")
-//
-//        connection = DriverManager.getConnection(url, user, password)
-//
-//        val statement = connection.createStatement()
-//
-//        // SQL statement to create a table
-//        val sql = """
-//            CREATE TABLE IF NOT EXISTS my_table (
-//                id SERIAL PRIMARY KEY,
-//                name VARCHAR(100) NOT NULL,
-//                age INT
-//            )
-//        """.trimIndent()
-//
-//        // Execute the SQL statement
-//        statement.execute(sql)
-//
-//        println("Table created successfully.")
-//
-//        println("Connected to the PostgreSQL server successfully.")
-//    } catch (e: Exception) {
-//        e.printStackTrace()
-//    } finally {
-//        connection?.close()
-//    }
+    val dataSetSize = 1000
+    val homeworksDataSet = DataManager(dataSetSize).getDataSet()
+
+    val globalHomeworksRepository = HomeworksRepository(connectionsPull.getConnection())
+
+    testExecutionTime(
+        iterationsCount = 1,
+        outputFilePath = "data/execution-time.report.json",
+        step = 1,
+        initialN = 1
+    ) {
+        globalHomeworksRepository.createTable()
+
+        val thread1 = Thread(
+            Thread1(
+                connectionsPull.getConnection(),
+                homeworksDataSet.slice(0..<(dataSetSize / 2))
+            )
+        )
+
+        val thread2 = Thread(
+            Thread2(
+                connectionsPull.getConnection(),
+                homeworksDataSet.slice(dataSetSize / 2..<dataSetSize)
+            )
+        )
+
+        thread1.start()
+        thread2.start()
+
+        thread1.join()
+        thread2.join()
+
+        globalHomeworksRepository.dropTable()
+    }
 }
