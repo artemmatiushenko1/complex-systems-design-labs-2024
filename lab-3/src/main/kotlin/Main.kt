@@ -10,7 +10,7 @@ fun main() {
         iterationsCount = 50,
         outputFilePath = "data/execution-time.report.json",
         step = 1,
-        initialN = 1
+        initialCounter = 1
     ) {
         globalHomeworksRepository.createTable()
 

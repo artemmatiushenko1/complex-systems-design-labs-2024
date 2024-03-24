@@ -28,13 +28,13 @@ inline fun <reified T> readJsonFileOrNull(fileName: String): T? {
 fun testExecutionTime(
     iterationsCount: Int,
     step: Int,
-    initialN: Int,
+    initialCounter: Int,
     outputFilePath: String,
     testingCode: (n: Int) -> Unit
 ) {
     val statistics = mutableMapOf<Int, Long>()
 
-    for (n in initialN..(iterationsCount * initialN) step step) {
+    for (n in initialCounter..(iterationsCount * initialCounter) step step) {
         val executionTime = measureTimeMillis {
             testingCode(n)
         }
