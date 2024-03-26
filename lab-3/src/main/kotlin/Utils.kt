@@ -1,6 +1,8 @@
+import Constants.OUTPUT_LOCK
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
+import kotlin.concurrent.withLock
 import kotlin.system.measureTimeMillis
 
 inline fun <reified T> writeJsonFile(data: T, fileName: String): File {
@@ -46,4 +48,10 @@ fun testExecutionTime(
 
     val reportFile = writeJsonFile(statistics, outputFilePath)
     println("Execution time report saved to: ${reportFile.absolutePath}")
+}
+
+fun withSyncOutput(block: () -> Unit) {
+    OUTPUT_LOCK.withLock {
+        block()
+    }
 }

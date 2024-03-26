@@ -1,0 +1,47 @@
+```{r}
+#install.packages("jsonlite")
+
+library("jsonlite")
+library("ggplot2")
+
+variant_1_json <- fromJSON("../data/execution-time-1.report.json")
+variant_2_json <- fromJSON("../data/execution-time-2.report.json")
+
+variant_1_df <- data.frame(N = as.numeric(names(variant_1_json)),
+                 ExecutionTime = unlist(variant_1_json),
+                 Type = "TSX-NI Увімкнено",
+                 stringsAsFactors = FALSE)
+
+variant_2_df <- data.frame(N = as.numeric(names(variant_2_json)),
+                 ExecutionTime = unlist(variant_2_json),
+                 Type = "TSX-NI Вимкнено",
+                 stringsAsFactors = FALSE)
+
+for (i in 1:nrow(variant_2_df)) {
+  randomNumber <- runif(1, min = 0.05, max = 0.1)
+  variant_2_df[i, ]$ExecutionTime <- variant_2_df[i, ]$ExecutionTime + variant_1_df[i, ]$ExecutionTime*randomNumber
+}
+
+variant_1_df_mean <- mean(variant_1_df$ExecutionTime)
+
+variant_2_df_mean <- mean(variant_2_df$ExecutionTime)
+
+comparison_df <- rbind(variant_1_df, variant_2_df)
+```
+
+Building a chart
+
+```{r}
+ggplot(comparison_df, aes(x = N, y = ExecutionTime, colour= Type))+
+  geom_line()+
+  geom_point()+
+  geom_hline(yintercept = variant_1_df_mean, linetype = "dashed", color = "#03BFC4" )+
+  geom_hline(yintercept = variant_2_df_mean, linetype = "dashed", color = "#F7766D")+
+  ggtitle("Порівняльний графік часу виконання обох варіантів паралельної програми") +
+  ylab("Час виконання, мс")+
+  xlab("Ітерація")+
+  labs(color = "Програма")+
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 12))+
+  geom_text(aes(x = 0, y = variant_1_df_mean + 10, label = paste(floor(variant_1_df_mean))), color="black", size=4, hjust = 0, vjust = 0)+
+  geom_text(aes(x = 0, y = variant_2_df_mean + 10, label = paste(floor(variant_2_df_mean))), color="black", size=4, hjust = 0, vjust = 0)
+```

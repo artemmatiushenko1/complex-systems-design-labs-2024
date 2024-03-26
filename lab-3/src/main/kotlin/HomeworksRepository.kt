@@ -1,25 +1,40 @@
-import Constants.GET_HOMEWORKS_BY_ID_PRINT_LOCK
 import Constants.UPDATE_LOCK
-import HomeworksRepository.Companion.TABLE_NAME
+import org.multiverse.api.StmUtils.atomic
 import java.sql.Connection
 import java.sql.ResultSet
 import kotlin.concurrent.withLock
 
-class HomeworksRepository(private val connection: Connection) {
+
+class HomeworksRepository(
+    private val connection: Connection,
+    private val isSTM: Boolean,
+) {
     companion object {
         const val TABLE_NAME = "homeworks"
     }
 
     private fun runUpdate(getSql: () -> String) {
-        println(getSql())
+        fun executeStatement() {
+            withSyncOutput {
+                println(getSql())
+            }
 
-        UPDATE_LOCK.withLock {
             try {
                 val statement = connection.createStatement()
                 statement.executeUpdate(getSql().trimIndent())
             } catch (e: Exception) {
                 println("❌ Failed to execute update!")
                 println(e)
+            }
+        }
+
+        if (isSTM) {
+            atomic(Runnable {
+                executeStatement()
+            })
+        } else {
+            UPDATE_LOCK.withLock {
+                executeStatement()
             }
         }
     }
@@ -95,7 +110,7 @@ class HomeworksRepository(private val connection: Connection) {
             val receivedScore = resultSet.getInt("receivedScore")
             val isDone = resultSet.getBoolean("isDone")
 
-            GET_HOMEWORKS_BY_ID_PRINT_LOCK.withLock {
+            withSyncOutput {
                 println("ID: $id, Student: $studentFullName, Homework: $title, Due Date: $dueDate, Max Score: $maxScore, Received Score: $receivedScore, Is Done: $isDone")
             }
         }

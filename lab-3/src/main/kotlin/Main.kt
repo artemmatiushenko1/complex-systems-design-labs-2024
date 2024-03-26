@@ -1,10 +1,12 @@
+const val IS_STM = false
+const val DATASET_SIZE = 5000
+
 fun main() {
     val connectionsPull = ConnectionsPull()
 
-    val dataSetSize = 1000
-    val homeworksDataSet = DataSetGenerator(dataSetSize).getDataSet()
+    val homeworksDataSet = DataSetGenerator(DATASET_SIZE).getDataSet()
 
-    val globalHomeworksRepository = HomeworksRepository(connectionsPull.getConnection())
+    val globalHomeworksRepository = HomeworksRepository(connectionsPull.getConnection(), IS_STM)
 
     testExecutionTime(
         iterationsCount = 50,
@@ -17,14 +19,16 @@ fun main() {
         val thread1 = Thread(
             ThreadCreator(
                 connectionsPull.getConnection(),
-                homeworksDataSet.slice(0..<(dataSetSize / 2))
+                homeworksDataSet.slice(0..<(DATASET_SIZE / 2)),
+                IS_STM,
             )
         )
 
         val thread2 = Thread(
             ThreadCreator(
                 connectionsPull.getConnection(),
-                homeworksDataSet.slice(dataSetSize / 2..<dataSetSize)
+                homeworksDataSet.slice(DATASET_SIZE / 2..<DATASET_SIZE),
+                IS_STM,
             )
         )
 

@@ -3,6 +3,6 @@ import java.util.concurrent.locks.ReentrantLock
 
 object Constants {
     val UPDATE_LOCK = ReentrantLock()
-    val GET_HOMEWORKS_BY_ID_PRINT_LOCK = ReentrantLock()
+    val OUTPUT_LOCK = ReentrantLock()
     val INSERT_SYNC_BARRIER = CyclicBarrier(2)
 }

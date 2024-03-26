@@ -16,13 +16,13 @@ dependencies {
     implementation("com.github.javafaker:javafaker:1.0.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation("com.zaxxer:HikariCP:5.1.0")
-    implementation("org.slf4j:slf4j-api:1.7.36")
-
+    implementation("org.multiverse:multiverse-core:0.7.0")
 }
 
 tasks.test {
     useJUnitPlatform()
 }
+
 kotlin {
     jvmToolchain(11)
 }
